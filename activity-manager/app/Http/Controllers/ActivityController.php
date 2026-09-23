@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        logger()->info('ActivityController@index dipanggil');
-
-        return "Halaman Activities Berhasil Dimuat!";
+        $activities = Activity::query()->orderBy('activity_date')->get();
+        return view('activities.index', compact('activities'));
     }
+
+    public function show(Activity $activity): View
+    {
+        return view('activities.show', compact('activity'));
+    }   
 }

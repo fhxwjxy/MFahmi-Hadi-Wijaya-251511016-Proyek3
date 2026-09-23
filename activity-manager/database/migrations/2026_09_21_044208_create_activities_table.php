@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('activities', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->enum('status', ['Planned', 'Ongoing', 'Done'])->default('Planned');
-            $table->timestamps();
+        $table->id();
+        $table->string('title', 100);
+        $table->text('description')->nullable();
+        $table->date('activity_date');
+        $table->string('category', 50);
+        $table->string('status', 20)->default('Planned');
+        $table->timestamps();
         });
     }
 
