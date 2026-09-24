@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ActivityController extends Controller
 {
     public function index(): View
     {
-        $activities = Activity::query()->orderBy('activity_date')->get();
+        logger()->info('ActivityController@index dipanggil');
+
+        $activities = Activity::query()
+            ->orderBy('activity_date')
+            ->get();
+
         return view('activities.index', compact('activities'));
     }
 
     public function show(Activity $activity): View
     {
-        return view('activities.show', compact('activity'));
-    }   
+        return view('activities.index', compact('activities'));
+    }
 }
