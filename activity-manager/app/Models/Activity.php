@@ -4,20 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Activity extends Model
 {
     protected $fillable = [
         'title',
+        'code',
         'description',
         'activity_date',
-        'category',
+        'category_id',
         'status',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     */
     protected function casts(): array
     {
         return [
@@ -30,5 +29,10 @@ class Activity extends Model
         return $query->when(in_array($status, ['Planned', 'Ongoing', 'Done'], true), function ($q) use ($status) {
             $q->where('status', $status);
         });
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }

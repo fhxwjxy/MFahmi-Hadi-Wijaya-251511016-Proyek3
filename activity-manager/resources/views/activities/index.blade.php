@@ -31,7 +31,9 @@
                 <a href="{{ route('activities.show', $activity) }}">
                     <strong>{{ $activity->title }}</strong>
                 </a><br>
-                {{ $activity->activity_date->format('d M Y') }} — Status: {{ $activity->status }}
+                {{ $activity->activity_date->format('d M Y') }} —
+                Kategori: {{ $activity->category->name }} —
+                Status: {{ $activity->status }}
             </li>
         @empty
             <li>Belum ada kegiatan.</li>

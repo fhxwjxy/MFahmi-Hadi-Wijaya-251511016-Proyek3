@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Category;
 use App\Http\Requests\StoreActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Services\ActivityService;
 
 class ActivityController extends Controller
 {
-    public function __construct(private ActivityService $service)
-    {
-    }
+
 
     public function index(): View
     {
@@ -23,7 +21,8 @@ class ActivityController extends Controller
 
     public function create(): View
     {
-        return view('activities.create');
+        $categories = Category::orderBy('name')->get();
+        return view('activities.create', compact('categories'));
     }
 
     public function store(StoreActivityRequest $request): RedirectResponse
@@ -39,12 +38,13 @@ class ActivityController extends Controller
 
     public function edit(Activity $activity): View
     {
-        return view('activities.edit', compact('activity'));
+        $categories = Category::orderBy('name')->get();
+        return view('activities.edit', compact('activity', 'categories'));
     }
 
     public function update(UpdateActivityRequest $request, Activity $activity): RedirectResponse
     {
-        $this->service->updateActivity($activity, $request->validated());
+        $activity->update($request->validated());
         return redirect()->route('activities.show', $activity)->with('success', 'Kegiatan berhasil diperbarui.');
     }
 
