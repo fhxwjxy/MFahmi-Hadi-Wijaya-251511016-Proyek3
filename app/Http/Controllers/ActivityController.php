@@ -6,18 +6,21 @@ use App\Models\Activity;
 use App\Models\Category;
 use App\Http\Requests\StoreActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
+use App\Services\ActivityService;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class ActivityController extends Controller
 {
+    protected ActivityService $service;
 
     public function index(Request $request): View
     {
         $activities = Activity::with('category')
             ->search($request->query('search'))
             ->filterCategory($request->query('category_id'))
-            ->fiterStatus($request->query('status'))
+            ->filterStatus($request->query('status'))
             ->sortByDate($request->query('sort'))
             ->paginate(10)
             ->withQueryString();
